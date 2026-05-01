@@ -14,5 +14,5 @@ export default function TabNavigator() {
             <Tab.Screen name="Search" component={SearchScreen} />
             <Tab.Screen name="About" component={AboutScreen} />
         </Tab.Navigator>
-    )
+    );
 }
