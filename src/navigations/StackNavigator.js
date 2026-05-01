@@ -4,7 +4,7 @@ import DetailScreen from '../screens/DetailScreen';
 
 const Stack = createNativeStackNavigator();
 
-export default function createNavigator() {
+export default function StackNavigator() {
     return (
         <Stack.Navigator>
             <Stack.Screen 

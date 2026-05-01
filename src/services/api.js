@@ -13,3 +13,13 @@ export const fetchShows = async() => {
         throw error;
     }
 };
+
+export const fetchShowDetail = async (id) => {
+    const res = await fetch(`https://api.tvmaze.com/shows/${id}`);
+
+    if (!res.ok) {
+        throw new Error("Gagal fetch detail");
+    }
+
+    return res.json();
+};
