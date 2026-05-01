@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
+import { useFavorites } from "../context/FavoritesContext";
 import { View, Text, Image, ScrollView, ActivityIndicator,
     TouchableOpacity, StyleSheet } from "react-native";
 import { fetchShowDetail } from "../services/api";
 
 export default function DetailScreen({ route }) {
-   const { id } = route.params;
+    const { id } = route.params;
 
-   const [show, setShow] = useState(null);
-   const [loading, setLoading] = useState(true);
+    const { state, dispatch } = useFavorites();
+
+    const [show, setShow] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    const isFavorite = state.favorites.some(
+        (item) => item.id === show?.id
+    );
 
     const getDetail = async () => {
         try {
@@ -67,9 +74,18 @@ export default function DetailScreen({ route }) {
                     {show.summary?.replace(/<[^>]+>/g, "")}
                 </Text>
 
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => {
+                        if (isFavorite) {
+                        dispatch({ type: "REMOVE_FAVORITE", payload: show.id });
+                        } else {
+                        dispatch({ type: "ADD_FAVORITE", payload: show });
+                        }
+                    }}
+                    >
                     <Text style={styles.buttonText}>
-                        + Tambah ke favorit
+                        {isFavorite ? "Hapus dari Favorit" : "+ Tambah ke Favorit"}
                     </Text>
                 </TouchableOpacity>
             </View>
