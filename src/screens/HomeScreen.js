@@ -36,22 +36,20 @@ export default function HomeScreen({ navigation }) {
         if (featured.length === 0) return;
 
         const interval = setInterval(() => {
-        let nextIndex = currentIndex + 1;
+            setCurrentIndex((prev) => {
+            const next = prev + 1 >= featured.length ? 0 : prev + 1;
 
-        if (nextIndex >= featured.length) {
-            nextIndex = 0;
-        }
+            flatListRef.current?.scrollToIndex({
+                index: next,
+                animated: true,
+            });
 
-        flatListRef.current?.scrollToIndex({
-            index: nextIndex,
-            animated: true,
-        });
-
-        setCurrentIndex(nextIndex);
+            return next;
+            });
         }, 3000);
 
         return () => clearInterval(interval);
-    }, [currentIndex, featured]);
+    }, [featured]);
 
     const onRefresh = () => {
         setRefreshing(true);
@@ -97,7 +95,6 @@ export default function HomeScreen({ navigation }) {
         renderItem={null}
         ListHeaderComponent={
             <>
-            {}
             <FlatList
                 ref={flatListRef}
                 data={featured}
@@ -114,8 +111,7 @@ export default function HomeScreen({ navigation }) {
                 onScrollToIndexFailed={() => {}}
             />
 
-            {}
-            {Object.entries(genres).slice(0, 3).map(([genre, items]) => (
+            {Object.entries(genres).map(([genre, items]) => (
                 <View key={genre}>
                 <Text style={styles.genreTitle}>{genre}</Text>
 
