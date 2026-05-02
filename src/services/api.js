@@ -23,3 +23,11 @@ export const fetchShowDetail = async (id) => {
 
     return res.json();
 };
+
+export const searchShows = async (query) => {
+    const res = await fetch(`https://api.tvmaze.com/search/shows?q=${query}`);
+    
+    if (!res.ok) throw new Error("Error search");
+    
+    return res.json();
+};

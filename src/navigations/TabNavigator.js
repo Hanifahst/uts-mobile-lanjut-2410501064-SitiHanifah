@@ -1,4 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
 import StackNavigator from './StackNavigator';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import SearchScreen from '../screens/SearchScreen';
@@ -8,7 +9,28 @@ const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
     return(
-        <Tab.Navigator>
+        <Tab.Navigator
+        screenOptions={({ route }) => ({
+            tabBarIcon: ({ color, size }) => {
+            let iconName;
+
+            if (route.name === "Home") {
+                iconName = "home";
+            } else if (route.name === "Favorites") {
+                iconName = "heart";
+            } else if (route.name === "Search") {
+                iconName = "search";
+            } else if (route.name === "About") {
+                iconName = "person";
+            }
+
+            return <Ionicons name={iconName} size={size} color={color} />;
+            },
+            tabBarActiveTintColor: "#C2A878",
+            tabBarInactiveTintColor: "gray",
+        })}
+        >
+
             <Tab.Screen name="Home" component={StackNavigator} options={{ headerShown: false }} />
             <Tab.Screen name="Favorites" component={FavoritesScreen} />
             <Tab.Screen name="Search" component={SearchScreen} />
